@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>끝말잇기</title>
+
+    <style>
+        :root{
+            --main-color: gold;
+        }
+        html, body{
+            margin: 0;
+            padding: 0;
+        }
+        h1{
+            text-align: center;
+            margin: 0 0 30px;
+            line-height: 50px;
+            background: var(--main-color);
+        }
+
+        .wrapper{
+            padding: 0 10px;
+        }
+        ul{
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        p{
+            border-radius: 5px;
+            border: 3px solid var(--main-color);
+            font-size: 2rem;
+        }
+
+        .rule-list{
+        }
+
+        .cnt-list{
+            margin-bottom: 20px;
+        }
+        .cnt-list li{
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .cnt-list li:last-of-type{
+            margin-right: 0;
+        }
+        .cnt-list li label input{
+            display: none;
+        }
+        .cnt-list li label input + strong{
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, .5);
+        }
+        .cnt-list li label input:checked + strong{
+            background: var(--main-color);
+        }
+
+        .word-list{
+            margin: 0 0 20px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 3px solid var(--main-color);
+            word-break: keep-all;
+            line-height: 75px;
+            font-weight: bolder;
+        }
+
+        button{
+            background: var(--main-color);
+            padding: 20px 30px;
+            border-radius: 5px;
+            border: 0;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .test-btn{
+            background: #888;
+            color: #fff;
+        }
+    </style>
+
+</head>
+<body>
+    <h1>끝말잇기</h1>
+    <div class="wrapper">
+        <h3>규칙</h3>
+        <ol class="rule-list">
+            <li>주어진 싸이클 안에 제시된 단어를 넣기</li>
+            <li>외국어 금지, 사람이름 금지, 나온 단어 금지</li>
+        </ol>
+        <ul class="cnt-list">
+            <li><label><input type="radio" name="wordLen" value="3" checked><strong>3개</strong></label></li>
+            <li><label><input type="radio" name="wordLen" value="4"><strong>4개</strong></label></li>
+            <li><label><input type="radio" name="wordLen" value="5"><strong>5개</strong></label></li>
+            <li><label><input type="radio" name="wordLen" value="6"><strong>6개</strong></label></li>
+            <li><label><input type="radio" name="wordLen" value="7"><strong>7개</strong></label></li>
+            <li><label><input type="radio" name="wordLen" value="8"><strong>8개</strong></label></li>
+        </ul>
+        <p id="wordList" class="word-list">?????</p>
+        <div>
+            <button id="setWordsBtn" onClick="setWords()">
+                단어 추출
+            </button>
+            <button id="setWordsBtn" class="test-btn" onClick="setTestWord()">
+                연습 단어 추출
+            </button>
+        </div>
+    </div>
+    <script>
+        const wordArr = ['노아', '방주', '무지개', '까마귀', '비둘기', '홍수', '언약', '동물', '아라랏산', '의인', '규빗', '은혜'];
+        const words = document.getElementById('wordList');
+
+
+        function getRandomWord() {
+            const shuffled = [...wordArr].sort(() => Math.random() - 0.5);
+            console.log(shuffled);
+            return shuffled.slice(0, document.querySelector('[name]:checked').value);
+        }
+        function setWords(){
+            const shuffled = getRandomWord();
+
+            words.innerHTML = shuffled.join(', ');
+        }
+
+        function setTestWord(){
+            words.innerHTML = ['오리', '나무', '김치', '피아노'].join(', ');
+        }
+    </script>
+</body>
+</html>

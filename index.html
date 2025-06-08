@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>끝말잇기</title>
-
     <style>
         :root{
             --main-color: gold;
@@ -12,16 +11,19 @@
         html, body{
             margin: 0;
             padding: 0;
+            font-size: 40px;
         }
+
         h1{
             text-align: center;
-            margin: 0 0 30px;
-            line-height: 50px;
+            margin: 0 0 15px;
+            line-height: 1.5rem;
+            font-size: 1rem;
             background: var(--main-color);
         }
 
         .wrapper{
-            padding: 0 10px;
+            padding: 0 1rem 1rem;
         }
         ul{
             list-style: none;
@@ -38,11 +40,27 @@
             font-size: 2rem;
         }
 
+        h3{
+            margin: 0 0 10px;
+        }
+
         .rule-list{
+            margin: 0 0 10px;
+            line-height: 1.5rem;
+            word-break: keep-all;
+        }
+        .cnt-wrapper{
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+        }
+        .cnt-wrapper button{
+            margin-left: 10px;
         }
 
         .cnt-list{
-            margin-bottom: 20px;
+            align-items: center;
         }
         .cnt-list li{
             margin-right: 10px;
@@ -65,26 +83,80 @@
         }
 
         .word-list{
-            margin: 0 0 20px;
+            margin: 0 0 10px;
             padding: 10px;
             border-radius: 5px;
             border: 3px solid var(--main-color);
             word-break: keep-all;
-            line-height: 75px;
+            line-height: 3rem;
             font-weight: bolder;
         }
 
+        .btns{
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
         button{
             background: var(--main-color);
-            padding: 20px 30px;
+            padding: 10px 20px;
             border-radius: 5px;
             border: 0;
-            font-size: 1.5rem;
+            /* font-size: 1.5rem; */
             cursor: pointer;
+            color: #000;
+            font-size: 1rem;
+            vertical-align: top;
+        }
+
+        button:last-of-type{
+            margin-right: 0;
         }
 
         .test-btn{
             background: #888;
+            color: #fff;
+        }
+
+        .timer-wrapper{
+            position: relative;
+            margin-bottom: 15px;
+            height: 3rem;
+        }
+        .timer-wrapper > div{
+            position: absolute;
+            font-size: 3rem;
+            left: 50%;
+            margin-left: -100px;
+            top: 0;
+        }
+
+        .max-time-input{
+            height: 1.5rem;
+            font-size: 1rem;
+            width:  2rem;
+            margin: 0 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: right;
+            border-radius: 5px;
+        }
+
+        body.time-over .end-layer{
+            display: flex;
+        }
+        .end-layer{
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: none;
+            background: red;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
             color: #fff;
         }
     </style>
@@ -93,32 +165,49 @@
 <body>
     <h1>끝말잇기</h1>
     <div class="wrapper">
-        <h3>규칙</h3>
-        <ol class="rule-list">
-            <li>주어진 싸이클 안에 제시된 단어를 넣기</li>
-            <li>외국어 금지, 사람이름 금지, 나온 단어 금지</li>
-        </ol>
-        <ul class="cnt-list">
-            <li><label><input type="radio" name="wordLen" value="3" checked><strong>3개</strong></label></li>
-            <li><label><input type="radio" name="wordLen" value="4"><strong>4개</strong></label></li>
-            <li><label><input type="radio" name="wordLen" value="5"><strong>5개</strong></label></li>
-            <li><label><input type="radio" name="wordLen" value="6"><strong>6개</strong></label></li>
-            <li><label><input type="radio" name="wordLen" value="7"><strong>7개</strong></label></li>
-            <li><label><input type="radio" name="wordLen" value="8"><strong>8개</strong></label></li>
-        </ul>
-        <p id="wordList" class="word-list">?????</p>
         <div>
-            <button id="setWordsBtn" onClick="setWords()">
-                단어 추출
-            </button>
+            <h3>규칙</h3>
+            <ol class="rule-list">
+                <li>주어진 싸이클 안에 제시된 단어를 넣기</li>
+                <li>옆에서 단어를 알려줄 시 그 단어는 사용금지</li>
+                <li>외국어 금지, 사람이름 금지, 나온 단어 금지</li>
+            </ol>
+        </div>
+        <p id="wordList" class="word-list">?????</p>
+        <div id="timerWrapper" class="timer-wrapper">
+            <div></div>
+        </div>
+        <div class="cnt-wrapper">
+            <ul class="cnt-list">
+                <li><label><input type="radio" name="wordLen" value="3" checked><strong>3개</strong></label></li>
+                <li><label><input type="radio" name="wordLen" value="4"><strong>4개</strong></label></li>
+                <li><label><input type="radio" name="wordLen" value="5"><strong>5개</strong></label></li>
+                <li><label><input type="radio" name="wordLen" value="6"><strong>6개</strong></label></li>
+                <li><label><input type="radio" name="wordLen" value="7"><strong>7개</strong></label></li>
+                <li><label><input type="radio" name="wordLen" value="8"><strong>8개</strong></label></li>
+            </ul>
+            <button id="setWordsBtn" onClick="setWords()">단어 추출</button>
+        </div>
+        <div class="btns">
             <button id="setWordsBtn" class="test-btn" onClick="setTestWord()">
                 연습 단어 추출
             </button>
+
+            <input type="number" id="maxtimeInput" class="max-time-input" value="10" />
+            <button onClick="resetTime()">타이머</button>
         </div>
     </div>
+    <div id="endLayer" class="end-layer">타임오버!!!</div>
     <script>
         const wordArr = ['노아', '방주', '무지개', '까마귀', '비둘기', '홍수', '언약', '동물', '아라랏산', '의인', '규빗', '은혜'];
         const words = document.getElementById('wordList');
+        const timerWrapper = document.getElementById('timerWrapper');
+
+
+        let raf = '';
+        let startTime = 0;
+        let maxTime = 10;
+
 
 
         function getRandomWord() {
@@ -135,6 +224,30 @@
         function setTestWord(){
             words.innerHTML = ['오리', '나무', '김치', '피아노'].join(', ');
         }
+
+        function resetTime(){
+            maxTime = document.getElementById('maxtimeInput').value;
+            startTime = 0;
+            timer();
+        }
+
+        function parseTime(time){
+            return +((time / 1000).toFixed(2));
+
+        }
+
+        function timer(timestamp){
+            if(!startTime) startTime = timestamp;
+            const curTime = parseTime(timestamp - startTime);
+            if(maxTime < curTime){
+                document.body.classList.add('time-over')
+                return window.cancelAnimationFrame(raf);
+            }
+
+            timerWrapper.querySelector(':scope > div').textContent = curTime;
+            raf = window.requestAnimationFrame(timer);
+        }
+        
     </script>
 </body>
 </html>
